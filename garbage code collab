@@ -43,4 +43,60 @@ print("Updated data.yaml paths:", data_dict)
 
 
 
+!find /content -name '*.pt'
+
+
+
+
+!ls /content/yolov5/test
+
+
+
+!python /content/yolov5/detect.py --weights /content/yolov5/runs/train/exp/weights/best.pt --source /content/yolov5/test --conf 0.25 --img-size 640 --save-txt --save-conf --save-crop
+
+
+
+!ls /content/yolov5/test
+
+
+!python /content/yolov5/detect.py --weights /content/yolov5/runs/train/exp/weights/best.pt --source /content/yolov5/test/images --data /content/yolov5/data.yaml --imgsz 640 --conf-thres 0.25 --iou-thres 0.45 --save-txt --save-conf --save-crop --project /content/yolov5/runs/detect --name exp --exist-ok
+
+
+
+
+from IPython.display import Image, display
+display(Image(filename='/content/yolov5/runs/detect/exp/000001_JPG_jpg.rf.3d60dcc577d36500338d022c84651afe.jpg'))
+
+
+
+!zip -r detection_results.zip /content/yolov5/runs/detect/exp
+
+
+!python export.py --weights /content/yolov5/runs/train/exp/weights/best.pt --img 640 --batch 1 --device 0 --include onnx
+
+
+
+
+!python /content/yolov5/detect.py \
+    --weights /content/yolov5/runs/train/exp/weights/best.pt \
+    --source /content/yolov5/test/images \
+    --imgsz 640 \
+    --conf-thres 0.25 \
+    --iou-thres 0.45 \
+    --save-txt \
+    --save-conf \
+    --save-crop \
+    --project /content/yolov5/runs/detect \
+    --name test_results \
+    --exist-ok
+
+
+
+
+
+
+
+
+
+
 
