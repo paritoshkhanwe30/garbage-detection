@@ -1,0 +1,46 @@
+# Clone YOLOv5 repository
+!git clone https://github.com/ultralytics/yolov5.git
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+
+!unzip '/content/drive/My Drive/dataset.zip' -d /content/yolov5/
+
+!ls /content/yolov5/
+
+
+
+
+
+
+import yaml
+
+# Load the data.yaml file
+data_path = '/content/yolov5/data.yaml'
+with open(data_path) as f:
+    data_dict = yaml.safe_load(f)
+
+# Print the current paths
+print("Current data.yaml paths:", data_dict)
+
+# Update paths to absolute paths
+data_dict['train'] = '/content/yolov5/train/images'
+data_dict['val'] = '/content/yolov5/valid/images'
+data_dict['test'] = '/content/yolov5/test/images'
+
+# Save the updated data.yaml
+with open(data_path, 'w') as f:
+    yaml.dump(data_dict, f)
+
+print("Updated data.yaml paths:", data_dict)
+
+
+
+
+!python3 /content/yolov5/train.py --data /content/yolov5/data.yaml --epochs 1 --batch-size 16 --img-size 640
+
+
+
+
+
